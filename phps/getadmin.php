@@ -15,6 +15,9 @@
     //要用require_once連結到另一個php檔案的connect內容
 
     try{
+
+    // require_once("./connect_chd104g1.php");    
+
     $sql = "select * from admin";
     $admin=$pdo->prepare($sql);
     $admin->execute();
