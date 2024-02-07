@@ -1,8 +1,10 @@
 <?php
-try{
+header("Access-Control-Allow-Origin:*");
 
-  // 連結資料庫
-  require_once("./connect_chd104g1.php");
+//連線到demo資料庫
+require_once("./connect_chd104g1.php");
+
+try{
   
   // 準備好 sql 指令
   $sql = "SELECT * FROM campsites WHERE open_status = 1;";
@@ -23,6 +25,7 @@ $result = ['error'=>false,"msg"=>"無營位資料","sites"=>"[]"];
   //準備要回傳給前端的資料
   $result = ["error"=>true, "msg"=>$e->getMessage()];
 }
+
 //回傳資料給前端
 echo json_encode($result);
 ?>
