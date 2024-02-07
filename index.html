@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>野良露營-前後台入口</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100svh;
+      }
+
+      .line1 {
+        flex-grow: 1;
+        background: #d5faff;
+      }
+      .line2 {
+        height: 20px;
+        background: #bae6ec;
+      }
+
+      .wrap {
+        width: 100svw;
+        display: flex;
+        justify-content: center;
+        padding: 40px 0 100px;
+        background: #3eb3c2;
+      }
+      .box {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 0 60px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .container {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+
+        a + a {
+          margin-left: 100px;
+        }
+      }
+
+      a {
+        padding: 30px 50px;
+        border-radius: 10px;
+        border: 0;
+        background-color: rgb(255, 56, 86);
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
+        color: hsl(0, 0%, 100%);
+        cursor: pointer;
+        font-size: 40px;
+        font-weight: 900;
+        font-family: "Inter", sans-serif;
+        text-decoration: none;
+      }
+
+      a:hover {
+        box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+      }
+
+      a:active {
+        background-color: rgb(255, 56, 86);
+        /*50, 168, 80*/
+        box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
+        transform: translateY(5px);
+        transition: 200ms;
+      }
+
+      /*跑馬燈*/
+
+      .guide-marquee {
+        padding: 20px 0px;
+        color: #fff;
+        background-color: #3eb3c2;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .guide-marquee > img {
+        animation: marquee 12s linear infinite;
+      }
+
+      @keyframes marquee {
+        from {
+          transform: translateX(100svw);
+        }
+
+        to {
+          transform: translateX(-50svw);
+        }
+      }
+
+      .colorful-flags {
+        position: fixed;
+        top: -30px;
+        left: 25%;
+        width: 50%;
+        z-index: 2;
+      }
+
+      .rule-trees1,.rule-trees2{
+        position: fixed;
+        left: 10%;
+        bottom: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: TreeMove 1s infinite linear;
+      }
+
+      .rule-trees2{
+        left: 75%;
+      }
+
+      @keyframes TreeMove {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+      
+    </style>
+  </head>
+  <body>
+    <img
+      class="colorful-flags"
+      src="./image/index/flag.png"
+      alt="營區規範區塊三角旗"
+    />
+    <div class="line1"></div>
+    <div class="line2"></div>
+
+    <div class="guide-marquee">
+      <img src="./image/index/marquee.svg" alt="跑馬燈" />
+    </div>
+    <div class="line2"></div>
+
+    <div class="wrap">
+      <div class="center">
+        <div class="box"><img src="./image/index/logo.png" alt="logo" /></div>
+        <div class="container">
+          <a href="./front">前台</a>
+          <a href="./back">後台</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule-trees1">
+        <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+        <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+        <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+        <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+    </div>
+    <div class="rule-trees2">
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+  </div>
+
+    </div>
+    <div class="line2"></div>
+    <div class="guide-marquee">
+      <img src="./image/index/marquee.svg" alt="跑馬燈" />
+    </div>
+
+    <div class="line2"></div>
+    <div class="line1"></div>
+  </body>
+</html>
