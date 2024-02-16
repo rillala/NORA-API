@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin:*");
+header('Content-Type: application/json;charset=UTF-8');
 
 //連線到demo資料庫
 require_once("./connect_chd104g1.php");
