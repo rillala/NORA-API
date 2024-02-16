@@ -1,7 +1,9 @@
 <?php
-// ini_set("display_errors","On")
-// header("Access-Control-Allow-Origin: *"); 
-// header('Content-Type: application/json;charset=UTF-8');
+header("Access-Control-Allow-Origin: *"); 
+header('Content-Type: application/json;charset=UTF-8');
+
+//連線到資料庫
+require_once("./connect_chd104g1.php");
 
 try{
     // $dbname = "nora";
@@ -14,11 +16,9 @@ try{
     // //建立pdo物件
     
     // $pdo = new PDO($dsn, $user, $password, $options);
-
-    require_once("./connect_chd104g1.php");
-
-    $sql = "select * from admin";
-
+    
+    $sql = "SELECT * FROM admin";
+    
     $admin=$pdo->prepare($sql);
     $admin->execute();
     
@@ -32,4 +32,7 @@ try{
 }catch (PDOException $e) {
     echo "錯誤 : ", $e->getMessage(), "<br>";
 }
+
+//顯示編碼錯誤
+ini_set("display_errors","On")
 ?>
