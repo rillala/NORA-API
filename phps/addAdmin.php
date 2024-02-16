@@ -4,21 +4,27 @@ header('Content-Type: application/json;charset=UTF-8');
 
 require_once("./connect_chd104g1.php");
 
-$addAdminData = json_decode(file_get_contents("php://input"), true);
+$data = json_decode(file_get_contents("php://input"), true);
 
 try{
-//連線到資料庫
 
-$sql="INSERT INTO admin (name, acc, psw, status) VALUES  (:name, :acc, :psw, :status);";
+// 取得資料
+$name = $data["name"];
+$acc = $data["acc"];
+$psw = $data["psw"];
+$status = isset($data["status"]) ? $data["status"] : 1; // 如果 status 不存在，設置預設值為 1
 
-$admin= $pdo->prepare($sql);
+// 在這裡執行你的 SQL 插入操作
+// 假設 $pdo 是你的 PDO 連接
+// 假設 "admin" 是你的資料表名稱
+$sql = "INSERT INTO admin (name, acc, psw, status) VALUES (:name, :acc, :psw, :status)";
 
-$admin->bindValue(":name",$addAdminData["name"]);
-$admin->bindValue(":acc",$addAdminData["acc"]);
-$admin->bindValue(":psw",$addAdminData["psw"]);
-$admin->bindValue(":status",$addAdminData["status"]);
-
-$admin->execute();
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(":name", $name);
+$stmt->bindValue(":acc", $acc);
+$stmt->bindValue(":psw", $psw);
+$stmt->bindValue(":status", $status);
+$stmt->execute();
 
 $result = ["error" => false, "msg" => "新增成功"];
 
