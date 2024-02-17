@@ -21,7 +21,8 @@ try {
     // 檢查是否找到了用戶並驗證哈希密碼
     if ($user && password_verify($psw, $user['psw'])) {
         // 登入成功，生成 token 或進行其他必要的處理
-        echo json_encode(['error' => false, 'message' => '登入成功']);
+        $token = bin2hex(random_bytes(16));
+        echo json_encode(['error' => false, 'message' => '登入成功','token' => $token]);
     } else {
         // 密碼錯誤或用戶不存在
         echo json_encode(['error' => true, 'message' => '登入失敗：信箱或密碼錯誤!']);
