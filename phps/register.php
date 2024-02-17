@@ -31,17 +31,17 @@ try {
     }
 
     // 設定時區，以確保獲取正確的當前日期和時間
-    //date_default_timezone_set('Asia/Taipei');
+    date_default_timezone_set('Asia/Taipei');
     // 獲取當前日期，格式為 YYYY-MM-DD
-    //$currentDate = date('Y-m-d');
+    $currentDate = date('Y-m-d');
 
     // 密碼加密
     $hashedPsw = password_hash($psw, PASSWORD_DEFAULT);
 
     // 插入資料庫
-    $sql = "INSERT INTO members (email, psw, name) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO members (email, psw, name, date) VALUES (?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-    $result = $stmt->execute([$email, $hashedPsw, $name]);
+    $result = $stmt->execute([$email, $hashedPsw, $name, $currentDate]);
 
     if (!$result) {
         throw new Exception('註冊失敗');
