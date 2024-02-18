@@ -5,7 +5,8 @@ require_once("./connect_chd104g1.php");
 
 try {
     // 準備 SQL 語句
-    $sql = "SELECT * FROM products";
+    $sql = "SELECT products.*, product_color.color, product_size.size FROM products LEFT JOIN product_color ON products.product_id = product_color.product_id LEFT JOIN product_size ON products.product_id = product_size.product_id";
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 

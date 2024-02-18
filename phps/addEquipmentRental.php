@@ -10,7 +10,7 @@ require_once("./connect_chd104g1.php");
 $equipmentData = json_decode(file_get_contents("php://input"), true);
 
 try {
-     
+    
     //準備sql指令    
     $sql = "INSERT INTO equipment_rentals (
         reservation_id,
