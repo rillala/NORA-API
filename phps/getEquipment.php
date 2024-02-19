@@ -24,7 +24,7 @@ try {
     $equipAllRows = $equipAll->fetchAll(PDO::FETCH_ASSOC);
     $equipSetRows = $equipSet->fetchAll(PDO::FETCH_ASSOC);
     $equipSingleRows = $equipSingle->fetchAll(PDO::FETCH_ASSOC);
-    $result = ['error'=>false,"msg"=>"成功取得營位資料","all"=> $equipAllRows,"sets"=> $equipSetRows,"singles" => $equipSingleRows ];
+    $result = ['error'=>false,"msg"=>"成功取得設備資料","all"=> $equipAllRows,"sets"=> $equipSetRows,"singles" => $equipSingleRows ];
     
 
 } catch (PDOException $e) {
