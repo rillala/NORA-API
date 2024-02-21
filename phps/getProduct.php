@@ -5,7 +5,11 @@ require_once("./connect_chd104g1.php");
 
 try {
     // 準備 SQL 語句
-    $sql = "SELECT products.*, product_color.color, product_size.size FROM products LEFT JOIN product_color ON products.product_id = product_color.product_id LEFT JOIN product_size ON products.product_id = product_size.product_id";
+    $sql = "SELECT p.*, GROUP_CONCAT(DISTINCT pc.color) AS colors, GROUP_CONCAT(DISTINCT ps.size) AS sizes 
+            FROM products p
+            LEFT JOIN product_color pc ON p.product_id = pc.product_id
+            LEFT JOIN product_size ps ON p.product_id = ps.product_id
+            GROUP BY p.product_id";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
