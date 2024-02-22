@@ -36,10 +36,12 @@ $description = $_POST['description'];
 $price = $_POST['price'];
 $state = $_POST['state'];
 $createdate = $_POST['createdate'];
-$color = $_POST['color'];
-$size = $_POST['size'];
+$colors = json_decode($_POST['colors']);
+$sizes = json_decode($_POST['sizes']);
 
 try {
+    $pdo->beginTransaction(); // 開始事務
+
     // 將多個圖片路徑合併成一個字符串，例如透過逗號分隔
     $imagesPathString = join(',', $imagesPaths);
 
@@ -62,15 +64,21 @@ try {
     // 獲取剛插入商品的ID
     $product_id = $pdo->lastInsertId(); 
 
-    // 插入商品顏色
-    $sql_color = "INSERT INTO product_color (product_id, color) VALUES (:product_id, :color)";
-    $stmt_color = $pdo->prepare($sql_color);
-    $stmt_color->execute(['product_id' => $product_id, 'color' => $color]);
+    // 插入顏色信息
+    foreach ($colors as $color) {
+        $sql_color = "INSERT INTO product_color (product_id, color) VALUES (:product_id, :color)";
+        $stmt_color = $pdo->prepare($sql_color);
+        $stmt_color->execute(['product_id' => $product_id, 'color' => $color]);
+    }
 
-    // 插入商品尺寸
-    $sql_size = "INSERT INTO product_size (product_id, size) VALUES (:product_id, :size)";
-    $stmt_size = $pdo->prepare($sql_size);
-    $stmt_size->execute(['product_id' => $product_id, 'size' => $size]);
+    // 插入尺寸信息
+    foreach ($sizes as $size) {
+        $sql_size = "INSERT INTO product_size (product_id, size) VALUES (:product_id, :size)";
+        $stmt_size = $pdo->prepare($sql_size);
+        $stmt_size->execute(['product_id' => $product_id, 'size' => $size]);
+    }
+
+    $pdo->commit(); // 提交事務
 
     // 返回成功訊息
     echo json_encode(["error" => false, "msg" => "新增成功"]);
