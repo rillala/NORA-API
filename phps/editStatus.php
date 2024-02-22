@@ -3,6 +3,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json;charset=UTF-8');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 //連線到demo資料庫
 require_once("./connect_chd104g1.php");
@@ -10,27 +12,29 @@ require_once("./connect_chd104g1.php");
 $editItem = json_decode(file_get_contents("php://input"), true);
 
 function getIdByTableName($tableName) {
-    $id = 0; // 預設 ID 值
+    $data = ["id" => "", "status" => ""]; // 使用陣列來同時返回ID和狀態的欄位名
     switch ($tableName) {
         case 'equipment':
-            $id = "id";
+            $data["id"] = "equipment_id"; // 假設設備表的ID欄位名為equipment_id
+            $data["status"] = "status";
             break;
         case 'campsites':
-            $id = 'campsite_id';
+            $data["id"] = 'campsite_id';
+            $data["status"] = "status";
             break;
-        // case 'table3':
-        //     $id = 3;
-        //     break;        
+        // 其他情況...
     }
-    return $id;
+    return $data; // 返回包含id和status欄位名的陣列
 }
 
 
 try {
     $tableName = $editItem["tablename"];
-    $id = getIdByTableName($tableName);
+    $data = getIdByTableName($tableName);
+    $idField = $data["id"];
+    $statusField = $data["status"];
     //準備sql指令    
-    $sql = "UPDATE  $tableName  SET status = :status WHERE $id = :id";
+    $sql = "UPDATE $tableName SET $statusField = :status WHERE $idField = :id";
     
     // 編譯 SQL 指令
     $stmt = $pdo->prepare($sql);

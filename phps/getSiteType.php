@@ -11,7 +11,7 @@ require_once("./connect_chd104g1.php");
 
 try {
     // 準備 SQL 語句
-    $sql = "SELECT * FROM campsites ;";   
+    $sql = "SELECT * FROM campsite_type ;";   
     
     // 使用 PDO 將需求的資料取回
     $sites = $pdo -> query($sql);   
@@ -19,7 +19,7 @@ try {
     // 準備要回傳給前端的資料   
     $sitesRows = $sites->fetchAll(PDO::FETCH_ASSOC);
    
-    $result = ['error'=>false,"msg"=>"成功取得營位資料","all"=> $sitesRows ];
+    $result = ['error'=>false,"msg"=>"成功取得營位類型資料","all"=> $sitesRows ];
     
 
 } catch (PDOException $e) {
