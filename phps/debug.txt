@@ -1,4 +1,6 @@
 Array
 (
-    [oldImgPath] => ../image/equipment/DALL·E 2024-01-13 19.20.22 - A
 )
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
