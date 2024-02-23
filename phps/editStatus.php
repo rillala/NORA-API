@@ -22,6 +22,10 @@ function getIdByTableName($tableName) {
             $data["id"] = 'campsite_id';
             $data["status"] = "status";
             break;
+        case 'campsite_reservations':
+            $data["id"] = 'reservation_id';
+            $data["status"] = "reserve_status";
+            break;
         // 其他情況...
     }
     return $data; // 返回包含id和status欄位名的陣列
@@ -49,7 +53,7 @@ try {
    
 
     //準備要回傳給前端的資料
-    $result = ["error" => false, "msg"=>"成功更新上架狀態"];
+    $result = ["error" => false, "msg"=>"成功更新狀態"];
 
 
     //準備要回傳給前端的資料
