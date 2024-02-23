@@ -12,7 +12,7 @@ $editData = json_decode(file_get_contents("php://input"), true);
 try {
 
     //準備sql指令
-    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, status = :status";
+    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, status = :status ";
 
     // 判斷是否需要更新圖片
     if ($editData["img1"] !== "") {
@@ -27,13 +27,14 @@ try {
     }
 
     // 加上條件
-    $sql .= " WHERE id = :id";
+    $sql .= " WHERE article_id = :article_id";
     
     // 編譯sql指令
     $stmt = $pdo->prepare($sql);
     
     // 綁定參數到每一個項目
     $stmt->bindValue(":title", $editData["title"]);
+    $stmt->bindValue(":article_id", $editData["article_id"]);
     $stmt->bindValue(":content", $editData["content"]);
     $stmt->bindValue(":img1", $editData["img1"]);
     $stmt->bindValue(":img2", $editData["img2"]);
@@ -55,7 +56,7 @@ try {
     $stmt->execute();
 
     // 準備要回傳給前端的數據
-    $result = ["error" => false, "msg"=>"成功更新文章资料"];
+    $result = ["error" => false, "msg"=>"成功更新文章資料"];
 
 } catch (PDOException $e) {
     $result = ["error" => true, "msg"=>$e->getMessage()];
