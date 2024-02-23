@@ -18,9 +18,9 @@ function getIdByTableName($tableName) {
         case 'campsites':
             $id = 'campsite_id';
             break;
-        // case 'table3':
-        //     $id = 3;
-        //     break;        
+        case 'admin':
+            $id = "adminid";
+            break;        
     }
     return $id;
 }
@@ -45,7 +45,7 @@ try {
    
 
     //準備要回傳給前端的資料
-    $result = ["error" => false, "msg"=>"成功更新上架狀態"];
+    $result = ["error" => false, "msg"=>"成功更新狀態"];
 
 
     //準備要回傳給前端的資料
