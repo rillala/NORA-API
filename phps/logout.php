@@ -1,14 +1,14 @@
 <?php
-ob_start();//啟動輸出緩衝
+//ob_start();//啟動輸出緩衝
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header('Content-Type: application/json;charset=UTF-8');
 
-
-// 啟用錯誤報告
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
+require_once("./connect_chd104g1.php");
 
 // 引入必要的JWT類
 require_once '../vendor/autoload.php';
@@ -16,9 +16,6 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 try {
-    // 連接資料庫
-    require_once("./connect_chd104g1.php");
-
     // 從 HTTP Authorization Header 獲取 JWT token
     $token = null;
     $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
@@ -56,5 +53,5 @@ try {
     echo json_encode(['error' => true, 'message' => '服務器錯誤：' . $e->getMessage()]);
 }
 
-ob_end_flush()
+//ob_end_flush()
 ?>

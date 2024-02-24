@@ -1,11 +1,17 @@
 <?php
-// 啟用錯誤報告
-ini_set('display_errors', 1);
+//ob_start();//啟動輸出緩衝
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json;charset=UTF-8');
+
+require_once("./connect_chd104g1.php");
 try {
     // 引入資料庫連接配置
-    require_once 'connect_chd104g1.php';
+
 
     // 前端以 POST 方法提交了 email ,psw和 name
     $name = $_POST['name'];
