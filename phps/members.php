@@ -1,9 +1,16 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json;charset=UTF-8');
+
+require_once("./connect_chd104g1.php");
+
 try{
 
-  // 連結資料庫
-  require_once("./connect_chd104g1.php");
-  
   // 準備好 sql 指令
   $sql = "SELECT * FROM members;";
   
