@@ -12,7 +12,7 @@ $editData = json_decode(file_get_contents("php://input"), true);
 try {
 
     //準備sql指令
-    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, status = :status ";
+    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, publish_date = now() , status = :status ";
 
     // 判斷是否需要更新圖片
     if ($editData["img1"] !== "") {
@@ -39,6 +39,7 @@ try {
     $stmt->bindValue(":img1", $editData["img1"]);
     $stmt->bindValue(":img2", $editData["img2"]);
     $stmt->bindValue(":img3", $editData["img3"]);
+    // $stmt->bindValue(":publish_date", $editData["publish_date"]);
     $stmt->bindValue(":status", $editData["status"]);
 
     // 只有當對應的欄位值不為空時才綁定參數
