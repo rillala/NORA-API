@@ -35,13 +35,13 @@ try {
 
     if ($user && password_verify($psw, $user['psw'])) {
         // 登入成功，生成 JWT token
-        $key = $key = bin2hex(random_bytes(32)); // 這個密鑰應該儲存於安全的地方，並且保持不變
+        $key = "your_long_term_secret_key"; // 這個密鑰應該儲存於安全的地方，並且保持不變
         
         $payload = [
-            "iss" => "http://localhost", // 發行者
-            "aud" => "http://localhost", // 觀眾
-            "iat" => time(), // 簽發時間
-            "exp" => time() + 7200, // 過期時間，這裡設定為2小時後
+            "iss" => "http://localhost", // 發行者 打包更改處
+            "aud" => "http://localhost", // 觀眾 　打包更改處
+            // "iat" => time(), // 簽發時間
+            // "exp" => time() + 7200, // 過期時間，這裡設定為2小時後
             "sub" => $user['member_id'], // 主題，通常是用戶ID
         ];
 
