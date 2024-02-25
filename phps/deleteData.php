@@ -19,8 +19,11 @@ function getIdByTableName($tableName) {
         case 'campsites':
             $id = 'campsite_id';
             break;
-        // case 'table3':
-        //     $id = 3;
+        case 'news':
+            $id = "article_id";
+            break;
+        // case 'table4':
+        //     $id = 4;
         //     break;        
     }
     return $id;

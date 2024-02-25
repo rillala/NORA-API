@@ -27,6 +27,10 @@ function getIdByTableName($tableName) {
             $data["status"] = "reserve_status";
             break;
         // 其他情況...
+        case 'admin':
+            $data["id"] = 'adminid';
+            $data["status"] = "status";
+            break;      
     }
     return $data; // 返回包含id和status欄位名的陣列
 }

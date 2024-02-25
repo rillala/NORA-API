@@ -45,7 +45,7 @@ try {
     if ($admin !== false && ($psw === $admin['psw'])) {
         // 密碼驗證成功，生成並回傳 token
         $token = bin2hex(random_bytes(16));
-        echo json_encode(['success' => true, 'message' => '登入成功', 'acc'=>$admin['name'] ,'token' => $token]);
+        echo json_encode(['success' => true, 'message' => '登入成功', 'name'=>$admin['name'] ,'adminid'=>$admin['adminid'],'status'=>$admin['status'],'token' => $token]);
     } else {
         // 密碼驗證失敗或帳號不存在
         echo json_encode(['success' => false, 'message' => '帳號密碼錯誤或不存在']);

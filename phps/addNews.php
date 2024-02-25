@@ -28,8 +28,8 @@ try {
         :img1,
         :img2,
         :img3,
-        :create_date,
-        :publish_date
+        now(),
+        now()
     )";
     
     // 編譯 SQL 指令
@@ -43,8 +43,8 @@ try {
     $stmt->bindValue(":img1", $Data["img1"]);
     $stmt->bindValue(":img2", $Data["img2"]);
     $stmt->bindValue(":img3", $Data["img3"]);
-    $stmt->bindValue(":create_date", $Data["create_date"]);
-    $stmt->bindValue(":publish_date", $Data["publish_date"]);
+    // $stmt->bindValue(":create_date", $Data["create_date"]);
+    // $stmt->bindValue(":publish_date", $Data["publish_date"]);
     
     // 執行 SQL 指令
     $stmt->execute();
