@@ -15,7 +15,7 @@ require_once '../vendor/firebase/php-jwt/src/SignatureInvalidException.php';
 require_once '../vendor/firebase/php-jwt/src/JWT.php';
 
 
-
+require_once '../vendor/autoload.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 

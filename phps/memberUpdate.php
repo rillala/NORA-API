@@ -1,12 +1,26 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-header('Content-Type: application/json;charset=UTF-8');
+//ob_start(); 
+// 啟動輸出緩衝
 
 // 啟用錯誤報告
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+// 設置 CORS 頭部
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json;charset=UTF-8');
+
+// 如果是 OPTIONS 請求，直接返回成功
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
+// 引入 JWT 類
+// require_once '../vendor/autoload.php';
+// use Firebase\JWT\JWT;
+// use Firebase\JWT\Key;
 
 try {
     // 連接資料庫

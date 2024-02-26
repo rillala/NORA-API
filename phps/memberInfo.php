@@ -1,14 +1,23 @@
 <?php
-ob_start(); // 啟動輸出緩衝
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header('Content-Type: application/json;charset=UTF-8');
+//ob_start(); 
+// 啟動輸出緩衝
 
 // 啟用錯誤報告
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// 設置 CORS 頭部
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json;charset=UTF-8');
+
+// 如果是 OPTIONS 請求，直接返回成功
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
+// 引入 JWT 類
 require_once '../vendor/autoload.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -25,8 +34,8 @@ try {
     // 從 HTTP Authorization Header 獲取 JWT token
     $token = null;
     $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-    if (strpos($authHeader, 'Bearer') === 0) {
-        $token = substr($authHeader, 7);
+    if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        $token = $matches[1];
     }
 
     if (!$token) {
@@ -34,7 +43,7 @@ try {
     }
 
     // 解碼 JWT token 以獲取用戶ID
-    $decoded = JWT::decode($token, new Key("your_long_term_secret_key", 'HS256'));
+    $decoded = JWT::decode($token, new Key("hi_this_is_nora_camping_project_for_CHD104g1", 'HS256'));
     $member_id = $decoded->sub;
 
     // 準備查詢
@@ -57,7 +66,7 @@ try {
     $stmt = null;
     $pdo = null;
 
-    ob_end_flush();
+    // ob_end_flush();
 } catch (Exception $e) {
     // 處理錯誤
     http_response_code(401);

@@ -1,6 +1,6 @@
 <?php
 // 啟動輸出緩衝
-// ob_start();
+ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -46,10 +46,12 @@ try {
 
     if ($updateStmt->rowCount() > 0) {
         // Token 清除成功
-        echo json_encode(['error' => false, 'message' => '登出成功']);
+        http_response_code(200);
+        echo json_encode(['error' => false, 'message' => '登出成功'],JSON_UNESCAPED_UNICODE);
     } else {
         // Token 清除失敗
-        echo json_encode(['error' => true, 'message' => '登出失敗：未找到用戶或 token 已經清空']);
+        http_response_code(400); 
+        echo json_encode(['error' => true, 'message' => '登出失敗：未找到用戶或 token 已經清空'],JSON_UNESCAPED_UNICODE);
     }
 } catch (PDOException $e) {
     // 資料庫連接或查詢錯誤
@@ -62,5 +64,5 @@ try {
 }
 
 // 結束輸出緩衝
-// ob_end_flush();
+ob_end_flush();
 ?>
