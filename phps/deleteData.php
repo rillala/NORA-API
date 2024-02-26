@@ -22,8 +22,11 @@ function getIdByTableName($tableName) {
         case 'news':
             $id = "article_id";
             break;
-        // case 'table4':
-        //     $id = 4;
+        case 'faq_management':
+            $id = 'faq_id';
+            break;
+        // case 'table5':
+        //     $id = 5;
         //     break;        
     }
     return $id;
