@@ -35,7 +35,7 @@ try {
 
     if ($user && password_verify($psw, $user['psw'])) {
         // 登入成功，生成 JWT token
-        $key = "your_long_term_secret_key"; // 這個密鑰應該儲存於安全的地方，並且保持不變
+        $key = "hi_this_is_nora_camping_project_for_CHD104g1"; // 這個密鑰應該儲存於安全的地方，並且保持不變
         
         $payload = [
             "iss" => "http://localhost", // 發行者 打包更改處
