@@ -12,23 +12,8 @@ $editData = json_decode(file_get_contents("php://input"), true);
 try {
 
     //準備sql指令
-    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, publish_date = now() , status = :status ";
+    $sql = "UPDATE news SET title = :title, content = :content, img1 = :img1, img2 = :img2, img3 = :img3, publish_date = now() , status = :status  WHERE article_id = :article_id";
 
-    // 判斷是否需要更新圖片
-    if ($editData["img1"] !== "") {
-        // 根據前端發送的數據中的img1、img2、img3的值來判斷是否更新圖片
-        $sql .= ", img1 = :img1";
-    }
-    if ($editData["img2"] !== "") {
-        $sql .= ", img2 = :img2";
-    }
-    if ($editData["img3"] !== "") {
-        $sql .= ", img3 = :img3";
-    }
-
-    // 加上條件
-    $sql .= " WHERE article_id = :article_id";
-    
     // 編譯sql指令
     $stmt = $pdo->prepare($sql);
     
@@ -42,17 +27,6 @@ try {
     // $stmt->bindValue(":publish_date", $editData["publish_date"]);
     $stmt->bindValue(":status", $editData["status"]);
 
-    // 只有當對應的欄位值不為空時才綁定參數
-    if ($editData["img1"] !== "") {
-        $stmt->bindValue(":img1", $editData["img1"]);
-    }
-    if ($editData["img2"] !== "") {
-        $stmt->bindValue(":img2", $editData["img2"]);
-    }
-    if ($editData["img3"] !== "") {
-        $stmt->bindValue(":img3", $editData["img3"]);
-    }
-    
     // 執行sql指令
     $stmt->execute();
 
