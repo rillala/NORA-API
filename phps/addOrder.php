@@ -13,12 +13,50 @@ try {
     $pdo->beginTransaction(); // 開始事務
 
     // 插入訂單基本資訊
-    $sql = "INSERT INTO orders (member_id, name, phone, email, address, delivery_method, payment, total_amount, order_status, comment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO orders (member_id, name, phone, email, address, delivery_method, payment, total_amount, order_status, comment, order_date, delivery_fee) VALUES (:member_id, :name, :phone, :email, :address, :delivery_method, :payment, :total_amount, :order_status, :comment, NOW(), :delivery_fee)";
+
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$data['member_id'], $data['name'], $data['phone'], $data['email'], $data['address'], $data['delivery_method'], $data['payment'], $data['total_amount'], $data['order_status'], $data['comment']]);
+    $stmt->execute([
+        ':member_id' => $data['member_id'],
+        ':name' => $data['name'],
+        ':phone' => $data['phone'],
+        ':email' => $data['email'],
+        ':address' => $data['address'],
+        ':delivery_method' => $data['delivery_method'],
+        ':payment' => $data['payment'],
+        ':total_amount' => $data['total_amount'],
+        ':order_status' => $data['order_status'],
+        ':comment' => $data['comment'],
+        ':delivery_fee' => $data['delivery_fee']
+    ]);
     
     $order_id = $pdo->lastInsertId(); // 獲取剛插入的訂單ID
 
+    foreach ($data['cartList']['carts'] as $item) {
+        $product_id = $item['productId'];
+        $quantity = $item['qty'];
+        $unit_price = $item['product']['price'];
+        $subtotal = $item['subtotal'];
+        $size = $item['selectedSize'];
+        $color = $item['selectedColor'];
+        $title = $item['product']['title'];
+    
+        // 准备插入 order_details 表的 SQL 语句
+        $sql_detail = "INSERT INTO order_details (order_id, product_id, quantity, unit_price, subtotal, size, color, title) VALUES (:order_id, :product_id, :quantity, :unit_price, :subtotal, :size, :color, :title)";
+        $stmt_detail = $pdo->prepare($sql_detail);
+        
+        // 执行插入操作
+        $stmt_detail->execute([
+            ':order_id' => $order_id,
+            ':product_id' => $product_id,
+            ':quantity' => $quantity,
+            ':unit_price' => $unit_price,
+            ':subtotal' => $subtotal,
+            ':size' => $size,
+            ':color' => $color,
+            ':title' => $title,
+        ]);
+    }
     // 根據需要處理 cartList 中的商品信息...
 
     $pdo->commit(); // 提交事務
