@@ -6,7 +6,7 @@
     require_once("./connect_chd104g1.php");
 
     try{
-    $sql = "SELECT * from news WHERE status = 1";
+    $sql = "SELECT * from news WHERE status = 1 order by publish_date desc";
     $news=$pdo->prepare($sql);
     $news->execute();
     
