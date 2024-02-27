@@ -24,7 +24,7 @@ try{
     
     if($admin->rowCount()>0){
         $adminData=$admin->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($adminData);
+        echo json_encode(["all" => $adminData]);
     }else{
         echo json_encode(["errMsg"=>""]);
     }
