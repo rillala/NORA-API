@@ -1,6 +1,6 @@
 <?php
 // 啟動輸出緩衝
-ob_start();
+// ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -64,5 +64,5 @@ try {
 }
 
 // 結束輸出緩衝
-ob_end_flush();
+// ob_end_flush();
 ?>
