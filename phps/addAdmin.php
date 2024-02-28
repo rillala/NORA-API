@@ -42,7 +42,7 @@ if($count >0){
 
 } catch (PDOException $e) {
 	//準備要回傳給前端的資料
-	$result = ["error" => true, "msg" => $e->getMessage()];
+	$result = ["error" => true, "msg" => "新增失敗：", "msg" => $e->getMessage()];
 }
 //回傳資料給前端
 echo json_encode($result);
