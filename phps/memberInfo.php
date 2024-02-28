@@ -47,7 +47,7 @@ try {
     $member_id = $decoded->sub;
 
     // 準備查詢
-    $stmt = $pdo->prepare("SELECT member_id, name, phone, email, address FROM members WHERE member_id = ?");
+    $stmt = $pdo->prepare("SELECT member_id, name, phone, email, address, photo FROM members WHERE member_id = ?");
     $stmt->bindParam(1, $member_id, PDO::PARAM_INT);
 
     // 執行查詢

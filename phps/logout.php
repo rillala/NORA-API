@@ -26,17 +26,20 @@ try {
     // 從 HTTP Authorization Header 獲取 JWT token
     $token = null;
     $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+
+    // echo $authHeader;
     
     if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
         $token = $matches[1];
     }
-
+    
     if (!$token) {
         throw new Exception('Token not provided.');
     }
-
+    
     // 使用實際的密鑰解碼 JWT token 以獲取用戶ID
     $decoded = JWT::decode($token, new Key("hi_this_is_nora_camping_project_for_CHD104g1", 'HS256'));
+    
     $member_id = $decoded->sub;
 
     // 將資料庫中的 token 欄位清空
