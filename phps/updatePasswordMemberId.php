@@ -17,10 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-// 引入 JWT 類
-require_once '../vendor/autoload.php';
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 try {
     // 連接資料庫
@@ -30,43 +26,20 @@ try {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
 
-    // 檢查密碼資訊是否完整
-    // if (!isset($data->oldPassword) || !isset($data->newPassword)) {
-    //     throw new Exception("密碼資訊不完整");
-    // }
-
-    // 賦值給變數
-    $oldPassword = $data->oldPassword;
-    $newPassword = $data->newPassword;
-    
-    // 解析 JWT
-    $token = null;
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-    if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        $token = $matches[1];
-    }
-
-    if (!$token) {
-        throw new Exception('Token not provided.');
-    }
-
-    // 使用正確的變數 $token
-    $jwt = $token;
-    $key = "hi_this_is_nora_camping_project_for_CHD104g1"; // 你的密鑰
-    $decoded = JWT::decode($jwt, new Key("hi_this_is_nora_camping_project_for_CHD104g1", 'HS256'));
-    $member_id = $decoded->sub;
+    // 使用 member_id 來驗證身份
+    $member_id = $data->member_id;
 
     // 驗證舊密碼
     $stmt = $pdo->prepare("SELECT psw FROM members WHERE member_id = ?");
     $stmt->execute([$member_id]);
     $user = $stmt->fetch();
 
-    if (!$user || !password_verify($oldPassword, $user['psw'])) {
+    if (!$user || !password_verify($data->oldPassword, $user['psw'])) {
         throw new Exception("舊密碼錯誤");
     }
 
     // 更新密碼
-    $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+    $newPasswordHash = password_hash($data->newPassword, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("UPDATE members SET psw = ? WHERE member_id = ?");
     $stmt->execute([$newPasswordHash, $member_id]);
     // 添加 success 字段到響應中
