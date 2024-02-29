@@ -65,8 +65,10 @@ try {
     // 產生JWT Token
     $key = "hi_this_is_nora_camping_project_for_CHD104g1";
     $payload = [
-        "iss" => "http://localhost",
-        "aud" => "http://localhost",
+        // "iss" => "https://tibamef2e.com/chd104/g1", // 發行者 打包更改處
+        // "aud" => "https://tibamef2e.com/chd104/g1", // 觀眾 　打包更改處
+        "iss" => "http://localhost", // 發行者 打包更改處
+        "aud" => "http://localhost", // 觀眾 　打包更改處
         "sub" => $memberId, // 使用剛剛創建或更新的用戶ID
     ];
     $jwt = JWT::encode($payload, $key, 'HS256');
