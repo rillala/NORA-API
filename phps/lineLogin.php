@@ -67,18 +67,18 @@ try {
             echo json_encode(['error' => true, 'message' => '登入成功，但 token 更新失敗']);
         }
     } else {
-        // 用戶不存在，進行插入操作
-        $uniqueEmailPlaceholder = "user_" . $user_id . "@placeholder.email";
-        $uniquePasswordPlaceholder = "user_" . $user_id . "_placeholder_password";
+        $unauthorizedEmail = "unauthorized_email"; // 定義一個常數或變數來儲存"unauthorized_email"這個值
+        $uniquePasswordPlaceholder = "user_" . $user_id . "_placeholder_password"; // 保持密碼佔位符的產生方式不變
+
         $insertStmt = $pdo->prepare("INSERT INTO members (user_id, name, photo, date, email, psw) VALUES (:user_id, :name, :photo, :date, :email, :psw)");
         $insertStmt->bindParam(':user_id', $user_id);
         $insertStmt->bindParam(':name', $name);
         $insertStmt->bindParam(':photo', $photo);
         $insertStmt->bindParam(':date', $date);
-        $insertStmt->bindParam(':email', $uniqueEmailPlaceholder); // 使用生成的唯一 email 佔位符
-        $insertStmt->bindParam(':psw', $uniquePasswordPlaceholder); // 使用生成的唯一密碼占位符
-        
-        $insertStmt->execute();
+        $insertStmt->bindParam(':email', $unauthorizedEmail); // 直接使用"unauthorized_email"這個固定值作為email的佔位符
+        $insertStmt->bindParam(':psw', $uniquePasswordPlaceholder); // 使用產生的唯一密碼佔位符
+
+        $insertStmt->execute();;
 
         // 獲取新插入的 member_id
         $newMemberId = $pdo->lastInsertId();
