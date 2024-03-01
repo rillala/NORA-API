@@ -1,4 +1,9 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header('Content-Type: application/json;charset=UTF-8');
+
 // 啟用錯誤報告
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -8,26 +13,23 @@ date_default_timezone_set('Asia/Taipei');
 // 獲取當前日期，格式為 YYYY-MM-DD
 $currentDate = date('Y-m-d');
 
-// 包含連接資料庫的程式碼
-require_once "./connect_chd104g1.php";
+require_once '../vendor/autoload.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
-// 讀取 JSON 請求體
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, true); // 將 JSON 轉換為 PHP 陣列
+try {
+    // 連接資料庫
+    require_once("./connect_chd104g1.php");
 
-// 從 JSON 請求中獲得的用戶資訊
-$user_id = $input['user_id']; // LINE 的用戶 ID
-$name = $input['name']; // 用戶的 LINE 暱稱
-$date = date('Y-m-d'); // 獲取當前日期和時間
+    // 讀取 JSON 請求體
+    $inputJSON = file_get_contents('php://input');
+    $input = json_decode($inputJSON, true); // 將 JSON 轉換為 PHP 陣列
 
-// 上傳文件部分
-$uploadDir = '../image/member/'; // 指定存儲上傳文件的目錄
-$fileName = $_FILES['file']['name']; // 獲取上傳的檔名
-$uploadFile = $uploadDir . $fileName; // 創建存儲路徑
-
-// 將上傳的文件移動到指定目錄
-if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
-    $filePath = 'member/' . $fileName; // 生成完整路徑
+    // 從 JSON 請求中獲得的用戶資訊
+    $user_id = $input['user_id']; // LINE 的用戶 ID
+    $name = $input['name']; // 用戶的 LINE 暱稱
+    $photo = $input['photo']; // 用戶的 LINE 頭像 URL
+    $date = date('Y-m-d'); // 獲取當前日期和時間
 
     // 檢查用戶是否已存在
     $stmt = $pdo->prepare("SELECT * FROM members WHERE user_id = :user_id");
@@ -39,24 +41,77 @@ if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
         // 用戶已存在，進行更新操作
         $updateStmt = $pdo->prepare("UPDATE members SET name = :name, photo = :photo WHERE user_id = :user_id");
         $updateStmt->bindParam(':name', $name);
-        $updateStmt->bindParam(':photo', $filePath); 
+        $updateStmt->bindParam(':photo', $photo); 
         $updateStmt->bindParam(':user_id', $user_id);
         $updateStmt->execute();
 
-        echo json_encode(['error' => false, 'message' => '用戶更新成功']);
+        // 生成 JWT token
+        $key = "hi_this_is_nora_camping_project_for_CHD104g1"; // 這個密鑰應該儲存於安全的地方，並且保持不變
+        $payload = [
+            "iss" => "http://localhost", // 發行者 打包更改處
+            "aud" => "http://localhost", // 觀眾 　打包更改處
+            "sub" => $user['member_id'], // 主題，通常是用戶ID
+        ];
+        $jwt = JWT::encode($payload, $key, 'HS256');
+
+        // 將 JWT token 儲存到資料庫
+        $updateTokenSql = "UPDATE members SET token = ? WHERE member_id = ?";
+        $updateTokenStmt = $pdo->prepare($updateTokenSql);
+        $updateTokenStmt->execute([$jwt, $user['member_id']]);
+
+        if ($updateTokenStmt->rowCount() > 0) {
+            // Token 更新成功
+            echo json_encode(['error' => false, 'message' => '登入成功', 'token' => $jwt]);
+        } else {
+            // Token 更新失敗
+            echo json_encode(['error' => true, 'message' => '登入成功，但 token 更新失敗']);
+        }
     } else {
-        // 用戶不存在，進行插入操作
-        $insertStmt = $pdo->prepare("INSERT INTO members (user_id, name, photo, date) VALUES (:user_id, :name, :photo, :date)");
+        $unauthorizedEmail = "unauthorized_email"; // 定義一個常數或變數來儲存"unauthorized_email"這個值
+        $uniquePasswordPlaceholder = "user_" . $user_id . "_placeholder_password"; // 保持密碼佔位符的產生方式不變
+
+        $insertStmt = $pdo->prepare("INSERT INTO members (user_id, name, photo, date, email, psw) VALUES (:user_id, :name, :photo, :date, :email, :psw)");
         $insertStmt->bindParam(':user_id', $user_id);
         $insertStmt->bindParam(':name', $name);
-        $insertStmt->bindParam(':photo', $filePath);
+        $insertStmt->bindParam(':photo', $photo);
         $insertStmt->bindParam(':date', $date);
-        $insertStmt->execute();
+        $insertStmt->bindParam(':email', $unauthorizedEmail); // 直接使用"unauthorized_email"這個固定值作為email的佔位符
+        $insertStmt->bindParam(':psw', $uniquePasswordPlaceholder); // 使用產生的唯一密碼佔位符
 
-        echo json_encode(['error' => false, 'message' => '用戶插入成功']);
+        $insertStmt->execute();;
+
+        // 獲取新插入的 member_id
+        $newMemberId = $pdo->lastInsertId();
+
+        // 生成 JWT token
+        $key = "hi_this_is_nora_camping_project_for_CHD104g1"; // 這個密鑰應該儲存於安全的地方，並且保持不變
+        $payload = [
+            "iss" => "http://localhost", // 發行者 打包更改處
+            "aud" => "http://localhost", // 觀眾 　打包更改處
+            "sub" => $newMemberId, // 主題，通常是用戶ID
+        ];
+        $jwt = JWT::encode($payload, $key, 'HS256');
+
+        // 將 JWT token 儲存到資料庫
+        $updateTokenSql = "UPDATE members SET token = ? WHERE member_id = ?";
+        $updateTokenStmt = $pdo->prepare($updateTokenSql);
+        $updateTokenStmt->execute([$jwt, $newMemberId]);
+
+        if ($updateTokenStmt->rowCount() > 0) {
+            // Token 更新成功
+            echo json_encode(['error' => false, 'message' => 'line登入成功', 'token' => $jwt]);
+        } else {
+            // Token 更新失敗
+            echo json_encode(['error' => true, 'message' => 'line登入成功，但 token 更新失敗']);
+        }
     }
-} else {
-    // 如果移動文件失敗，則返回錯誤訊息
-    echo json_encode(['error' => true, 'message' => '檔案上傳失敗。']);
+} catch (PDOException $e) {
+    echo json_encode([
+        'error' => true,
+        'message' => '資料庫錯誤：' . $e->getMessage(),
+        'errorInfo' => $pdo->errorInfo()
+    ]);
+} catch (Exception $e) {
+    echo json_encode(['error' => true, 'message' => '服務器錯誤：' . $e->getMessage()]);
 }
 ?>

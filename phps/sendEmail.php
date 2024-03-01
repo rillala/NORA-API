@@ -21,12 +21,12 @@ $psw = $_POST['psw'];
 
 // 檢查信箱、密碼和名字是否都已填寫
 if (empty($email) || empty($psw) || empty($name)) {
-    throw new Exception('信箱、密碼和名字是必填欄位');
+    die(json_encode(['error' => true, 'message' => '信箱、密碼和名字是必填欄位']));
 }
 
 // 驗證郵箱格式
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    throw new Exception('無效的郵箱格式');
+    die(json_encode(['error' => true, 'message' => '無效的郵箱格式']));
 }
 
 // 檢查郵箱是否已被註冊
@@ -34,7 +34,7 @@ $sql = "SELECT email FROM members WHERE email = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$email]);
 if ($stmt->rowCount() > 0) {
-    throw new Exception('郵箱已被註冊');
+    die(json_encode(['error' => true, 'message' => '郵箱已被註冊']));
 }
 
 // 發送驗證郵件
@@ -48,6 +48,9 @@ try {
     $mail->Password   = 'Noranora104!'; // 請替換為你的郵箱密碼
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
+
+    // 設置憑證文件路徑
+    // $mail->setAuthConfig('../client_secret.json');; // 將路徑替換為您的JSON憑證文件的實際路徑
 
     //Recipients
     $mail->setFrom('chd.noracamping@gmail.com', 'Noracamping');
