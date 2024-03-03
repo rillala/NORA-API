@@ -38,8 +38,8 @@ try {
         $key = "hi_this_is_nora_camping_project_for_CHD104g1"; // 這個密鑰應該儲存於安全的地方，並且保持不變
         
         $payload = [
-            // "iss" => "https://tibamef2e.com/chd104/g1", // 發行者 打包更改處
-            // "aud" => "https://tibamef2e.com/chd104/g1", // 觀眾 　打包更改處
+            // "iss" => "https://tibamef2e.com/chd104/g1/front", // 發行者 打包更改處
+            // "aud" => "https://tibamef2e.com/chd104/g1/front", // 觀眾 　打包更改處
             "iss" => "http://localhost", // 發行者 打包更改處
             "aud" => "http://localhost", // 觀眾 　打包更改處
             // "iat" => time(), // 簽發時間
