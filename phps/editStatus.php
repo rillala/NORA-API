@@ -15,7 +15,7 @@ function getIdByTableName($tableName) {
     $data = ["id" => "", "status" => ""]; // 使用陣列來同時返回ID和狀態的欄位名
     switch ($tableName) {
         case 'equipment':
-            $data["id"] = "equipment_id"; // 假設設備表的ID欄位名為equipment_id
+            $data["id"] = "id";
             $data["status"] = "status";
             break;
         case 'campsites':
