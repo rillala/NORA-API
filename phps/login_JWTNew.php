@@ -31,6 +31,8 @@ try {
         $key = "hi_this_is_nora_camping_project_for_CHD104g1";
         
         $payload = [
+            // "iss" => "https://tibamef2e.com/chd104/g1/front",  //打包更改處
+            // "aud" => "https://tibamef2e.com/chd104/g1/front",  //打包更改處
             "iss" => "http://localhost",
             "aud" => "http://localhost",
             "sub" => $user['member_id'],
