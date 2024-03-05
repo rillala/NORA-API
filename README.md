@@ -6,7 +6,6 @@
 
 - [野良露營\_簡報](https://drive.google.com/file/d/1hTI494n8lbzKbaudzZiSmbZxcGdhtjUC/view)
 - [野良露營\_展示影片](https://www.youtube.com/watch?v=9_ODuTqBn6w)
--
 - [野良露營 Nora Camping](https://tibamef2e.com/chd104/g1/) <--正式網站請由此進入。
 
 ## 項目結構
