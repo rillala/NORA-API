@@ -60,3 +60,25 @@
 - **JWT 加密登入**：採用 `firebase/php-jwt` 實現安全的用戶認證機制，保障用戶登入過程的安全性。
 - **資料庫管理**：透過 WampServer 的 MySQL 服務和 PHPMyAdmin 進行資料庫的設計和管理。
 - **API 開發**：基於 PHP 開發穩定的 RESTful API，支持前台和後台之間的數據交互。
+
+  ## 貢獻者
+<a href="https://github.com/victor6835">
+  <img src="https://github.com/victor6835.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="莊程富">
+</a>
+<a href="https://github.com/tiffany1029tw">
+  <img src="https://github.com/tiffany1029tw.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="江坤桂">
+</a>
+<a href="https://github.com/ortis88">
+  <img src="https://github.com/ortis88.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="陳柏廷">
+</a>
+<a href="https://github.com/nan-sansan">
+  <img src="https://github.com/nan-sansan.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="莊乃潔">
+</a>
+<a href="https://github.com/hsiaoyingchen">
+  <img src="https://github.com/hsiaoyingchen.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="陳曉穎">
+</a>
+<a href="https://github.com/rillala">
+  <img src="https://github.com/rillala.png?size=50" style="border-radius: 50%; border: 1px solid black;" alt="林育潔">
+</a>
+
+
