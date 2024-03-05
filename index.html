@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>野良露營-前後台入口</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #3eb3c2;
+    }
+
+    .wrap {
+      width: 100svw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flag-container {
+      width: 100%;
+      position: absolute;
+      top: -11px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .flag-container img {
+      width: 50%;
+    }
+
+    .guide-marquee {
+      position: relative;
+      width: 100%;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .line1 {
+      height: 50px;
+      background: #d5faff;
+    }
+
+    .line2 {
+      height: 20px;
+      background: #bae6ec;
+    }
+
+    .center {
+      width: 100%;
+    }
+
+    .box {
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+
+      a+a {
+        margin-left: 100px;
+      }
+    }
+
+    a {
+      padding: 30px 50px;
+      border-radius: 10px;
+      border: 0;
+      background-color: rgb(255, 56, 86);
+      letter-spacing: 1.5px;
+      transition: all 0.3s ease;
+      box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
+      color: hsl(0, 0%, 100%);
+      cursor: pointer;
+      font-size: 40px;
+      font-weight: 900;
+      font-family: "Inter", sans-serif;
+      text-decoration: none;
+    }
+
+    a:hover {
+      transform: translateY(10px);
+      box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
+      background-color: #CED38C;
+    }
+
+    a:active {
+      background-color: rgb(255, 56, 86);
+      /*50, 168, 80*/
+      box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
+      transform: translateY(5px);
+      transition: 200ms;
+    }
+
+    .copyright {
+      width: 100%;
+      padding: 20px 0;
+      background-color: #bae6ec;
+      overflow: hidden;
+    }
+
+    .copyright p {
+      font-weight: bold;
+      color: #000;
+      white-space: nowrap;
+    }
+
+    /*跑馬燈*/
+
+    .guide-marquee img {
+      position: relative;
+      transform: translateX(153%);
+      animation: welcome 15s linear infinite;
+    }
+
+    @keyframes welcome {
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .copyright>p {
+      animation: marquee 40s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
+    }
+
+
+
+    .rule-trees1,
+    .rule-trees2 {
+      position: fixed;
+      left: 0%;
+      bottom: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: TreeMove 1s infinite linear;
+    }
+
+    .rule-trees2 {
+      left: 73%;
+    }
+
+    @keyframes TreeMove {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(10px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="flag-container">
+      <img class="colorful-flags" src="./image/index/flag.png" alt="營區規範區塊三角旗" />
+    </div>
+
+    <div class="line2"></div>
+    <div class="guide-marquee">
+      <img src="./image/index/marquee.svg" alt="跑馬燈" />
+    </div>
+    <div class="line2"></div>
+
+    <div class="center">
+      <div class="box">
+        <img src="./image/index/logo.png" alt="logo" />
+      </div>
+      <div class="container">
+        <a href="./front">前台</a>
+        <a href="./back">後台</a>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>
+        本網站為緯育TibaMe_前端設計工程師班第88期學員專題成果作品，本平台僅供學習、展示之用。若有抵觸有關著作權，或有第三人主張侵害智慧財產權等情事，均由學員負法律上責任，緯育公司概不負責。若有侵權疑慮，您可以私訊［緯育TibaMe］，後續會由專人協助處理。
+      </p>
+    </div>
+
+    <div class="rule-trees1">
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+    </div>
+    <div class="rule-trees2">
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_2.svg" alt="樹圖片" />
+      <img src="./image/index/tree_icon_1.svg" alt="樹圖片" />
+    </div>
+
+  </div>
+</body>
+
+</html>
